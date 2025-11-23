@@ -58,17 +58,17 @@ export default function WorksCited() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="space-y-8"
+            className="space-y-6"
           >
             {citations.map((citation, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 * index }}
-                className="pl-8 border-l-2 border-sage-200 hover:border-sage-400 transition-colors"
+                transition={{ duration: 0.5, delay: 0.05 * index }}
+                className="relative"
               >
-                <p className="text-slate-700 leading-relaxed text-lg hanging-indent">
+                <p className="text-slate-700 leading-relaxed text-base" style={{ paddingLeft: '2rem', textIndent: '-2rem' }}>
                   {citation}
                 </p>
               </motion.div>
@@ -89,12 +89,6 @@ export default function WorksCited() {
         </motion.div>
       </div>
 
-      <style jsx global>{`
-        .hanging-indent {
-          text-indent: -2rem;
-          padding-left: 2rem;
-        }
-      `}</style>
     </div>
   )
 }
