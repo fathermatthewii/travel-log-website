@@ -59,13 +59,15 @@ export default function Timeline({ days }: TimelineProps) {
         <div className="bg-white/90 backdrop-blur-xl border border-slate-200/50 rounded-full shadow-xl hover:shadow-2xl transition-shadow duration-300 px-6 py-4">
           <div className="flex items-center justify-between gap-2 overflow-x-auto scrollbar-hide">
             {days.map((day, index) => (
-              <button
+              <motion.button
                 key={day.id}
                 onClick={() => scrollToDay(day.id)}
-                className={`relative flex-shrink-0 px-4 py-2 rounded-full transition-all duration-300 ${
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                className={`relative flex-shrink-0 px-4 py-2 rounded-full transition-all duration-300 cursor-pointer ${
                   activeDay === index
                     ? 'text-slate-900'
-                    : 'text-slate-500 hover:text-slate-700'
+                    : 'text-slate-500 hover:text-slate-900 hover:bg-sand-100/50'
                 }`}
               >
                 <div className="flex flex-col items-center gap-1">
@@ -84,19 +86,22 @@ export default function Timeline({ days }: TimelineProps) {
                     transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                   />
                 )}
-              </button>
+              </motion.button>
             ))}
             
             {/* Works Cited Link */}
-            <Link
-              href="/works-cited"
-              className="flex-shrink-0 px-4 py-2 text-slate-500 hover:text-slate-900 transition-colors"
-            >
-              <div className="flex flex-col items-center gap-1">
-                <span className="text-xs font-sans uppercase tracking-wider">
-                  Sources
-                </span>
-              </div>
+            <Link href="/works-cited">
+              <motion.div
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex-shrink-0 px-4 py-2 rounded-full text-slate-500 hover:text-slate-900 hover:bg-sage-100/50 transition-all duration-300 cursor-pointer"
+              >
+                <div className="flex flex-col items-center gap-1">
+                  <span className="text-xs font-sans uppercase tracking-wider">
+                    Sources
+                  </span>
+                </div>
+              </motion.div>
             </Link>
           </div>
         </div>
