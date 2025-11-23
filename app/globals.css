@@ -1,0 +1,107 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-sand: 45 30% 88%;
+    --color-sage: 120 8% 45%;
+    --color-charcoal: 210 11% 15%;
+  }
+  
+  * {
+    @apply border-slate-200;
+  }
+  
+  body {
+    @apply bg-sand-50 text-slate-800 antialiased;
+    font-feature-settings: "kern" 1, "liga" 1;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Custom Typography Styles */
+.prose-editorial {
+  @apply max-w-3xl;
+}
+
+.prose-editorial p {
+  @apply text-slate-700 leading-relaxed mb-6 text-lg;
+}
+
+.prose-editorial h2 {
+  @apply text-4xl md:text-5xl font-serif text-slate-900 mb-4 leading-tight;
+}
+
+.prose-editorial h3 {
+  @apply text-2xl md:text-3xl font-serif text-slate-800 mb-3 leading-snug;
+}
+
+.prose-editorial blockquote {
+  @apply text-2xl md:text-3xl font-serif italic text-sage-700 border-l-4 border-sage-400 pl-6 my-8;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Selection styles */
+::selection {
+  @apply bg-sage-300 text-slate-900;
+}
+
+::-moz-selection {
+  @apply bg-sage-300 text-slate-900;
+}
+
+/* Smooth fade in for images */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+img {
+  animation: fadeIn 0.5s ease-in;
+}
+
+/* Custom cursor on interactive elements */
+@layer utilities {
+  .cursor-fancy {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23475569" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>'), auto;
+  }
+}
