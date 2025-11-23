@@ -57,6 +57,12 @@ export default function PhotoGrid({ images, dayNumber }: PhotoGridProps) {
     }
   }
 
+  const getImagePath = (src: string | undefined) => {
+    if (!src) return undefined
+    const basePath = process.env.NODE_ENV === 'production' ? '/travel-log-website' : ''
+    return `${basePath}${src}`
+  }
+
   return (
     <div className="grid grid-cols-2 auto-rows-[180px] gap-4">
       {images.map((image, index) => (
@@ -82,7 +88,7 @@ export default function PhotoGrid({ images, dayNumber }: PhotoGridProps) {
             <>
               {/* Actual Image */}
               <Image
-                src={image.src}
+                src={getImagePath(image.src) || ''}
                 alt={image.alt}
                 fill
                 className="object-contain"
