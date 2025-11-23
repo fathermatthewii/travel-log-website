@@ -68,21 +68,30 @@ export default function PhotoGrid({ images, dayNumber }: PhotoGridProps) {
       {images.map((image, index) => (
         <motion.div
           key={index}
-          initial={{ opacity: 0, scale: 0.9, y: 30 }}
-          whileInView={{ opacity: 1, scale: 1, y: 0 }}
+          initial={{ opacity: 0, scale: 0.9, y: 30, rotateY: -10 }}
+          whileInView={{ opacity: 1, scale: 1, y: 0, rotateY: 0 }}
           viewport={{ once: true }}
           transition={{ 
-            duration: 0.7, 
+            duration: 0.8, 
             delay: index * 0.15,
-            ease: [0.25, 0.46, 0.45, 0.94]
+            ease: [0.25, 0.46, 0.45, 0.94],
+            type: 'spring',
+            stiffness: 100
           }}
-          whileHover={{ scale: 1.03, y: -5 }}
+          whileHover={{ 
+            scale: 1.05, 
+            y: -8,
+            rotateY: 2,
+            rotateX: 2,
+            zIndex: 10
+          }}
           onClick={() => handleImageClick(image.creditUrl)}
           className={`
-            relative overflow-hidden rounded-2xl bg-gradient-to-br from-sand-200 to-sage-200
+            relative overflow-hidden rounded-2xl bg-gradient-to-br from-sand-200 via-amber-100 to-yellow-200
             ${getBentoLayout(images.length, index)}
-            group cursor-pointer shadow-lg hover:shadow-2xl transition-shadow duration-300
+            group cursor-pointer shadow-xl hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] transition-all duration-500
           `}
+          style={{ perspective: '1000px' }}
         >
           {image.src ? (
             <>
@@ -94,28 +103,48 @@ export default function PhotoGrid({ images, dayNumber }: PhotoGridProps) {
                 className="object-contain"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
-              {/* Overlay on hover with gradient */}
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/0 via-slate-900/0 to-slate-900/0 group-hover:from-slate-900/30 group-hover:via-slate-900/10 group-hover:to-transparent transition-all duration-500" />
+              {/* Enhanced overlay with gradient and shimmer */}
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/0 via-slate-900/0 to-slate-900/0 group-hover:from-slate-900/40 group-hover:via-slate-900/15 group-hover:to-transparent transition-all duration-500" />
               
-              {/* Image credit */}
+              {/* Shimmer effect on hover */}
+              <motion.div
+                initial={{ x: '-100%', opacity: 0 }}
+                whileHover={{ x: '100%', opacity: 0.3 }}
+                transition={{ duration: 0.6 }}
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent"
+              />
+              
+              {/* Border glow effect */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                whileHover={{ opacity: 1 }}
+                className="absolute inset-0 rounded-2xl ring-2 ring-amber-400/50 ring-inset"
+              />
+              
+              {/* Image credit with enhanced styling */}
               {image.credit && (
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900/80 to-transparent p-3 z-20">
+                <motion.div 
+                  initial={{ y: 10, opacity: 0 }}
+                  whileHover={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                  className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900/90 via-slate-900/70 to-transparent p-3 z-20 backdrop-blur-sm"
+                >
                   {image.creditUrl ? (
                     <a 
                       href={image.creditUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={(e) => e.stopPropagation()}
-                      className="text-[10px] text-white/90 font-sans tracking-wide hover:text-white transition-colors underline decoration-white/40 hover:decoration-white"
+                      className="text-[10px] text-white/95 font-sans tracking-wide hover:text-amber-300 transition-colors underline decoration-white/40 hover:decoration-amber-300"
                     >
                       {image.credit}
                     </a>
                   ) : (
-                    <p className="text-[10px] text-white/90 font-sans tracking-wide">
+                    <p className="text-[10px] text-white/95 font-sans tracking-wide">
                       {image.credit}
                     </p>
                   )}
-                </div>
+                </motion.div>
               )}
             </>
           ) : (
@@ -134,12 +163,12 @@ export default function PhotoGrid({ images, dayNumber }: PhotoGridProps) {
             </>
           )}
           
-          {/* Day number badge with animation */}
+          {/* Enhanced day number badge with glow */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileHover={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.2 }}
-            className="absolute top-3 right-3 bg-white/95 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-sans text-slate-700 opacity-0 group-hover:opacity-100 shadow-lg z-10"
+            initial={{ opacity: 0, scale: 0.8, y: -5 }}
+            whileHover={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.3, type: 'spring' }}
+            className="absolute top-3 right-3 bg-gradient-to-br from-white/95 to-amber-50/95 backdrop-blur-md rounded-full px-4 py-1.5 text-xs font-sans font-semibold text-transparent bg-clip-text bg-gradient-to-r from-amber-700 to-yellow-700 opacity-0 group-hover:opacity-100 shadow-xl shadow-amber-500/20 border border-amber-200/50 z-10"
           >
             Day {dayNumber}
           </motion.div>

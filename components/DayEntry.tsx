@@ -85,18 +85,42 @@ export default function DayEntry({ day, index }: DayEntryProps) {
       ref={ref}
       className="relative px-8 py-24 overflow-hidden"
     >
-      {/* Animated accent orbs */}
+      {/* Enhanced animated accent orbs with pulsing */}
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
-        animate={isInView ? { opacity: 0.2, scale: 1 } : {}}
-        transition={{ duration: 2, delay: 0.3 }}
+        animate={isInView ? { 
+          opacity: [0.15, 0.25, 0.15], 
+          scale: [0.95, 1.05, 0.95] 
+        } : {}}
+        transition={{ 
+          opacity: { duration: 4, repeat: Infinity },
+          scale: { duration: 6, repeat: Infinity },
+          delay: 0.3 
+        }}
         className={`absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-br ${theme.accent} rounded-full blur-3xl pointer-events-none`}
       />
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
-        animate={isInView ? { opacity: 0.15, scale: 1 } : {}}
-        transition={{ duration: 2, delay: 0.5 }}
+        animate={isInView ? { 
+          opacity: [0.1, 0.2, 0.1], 
+          scale: [1, 0.9, 1] 
+        } : {}}
+        transition={{ 
+          opacity: { duration: 5, repeat: Infinity },
+          scale: { duration: 7, repeat: Infinity },
+          delay: 0.5 
+        }}
         className={`absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-br ${theme.accent} rounded-full blur-3xl pointer-events-none`}
+      />
+      {/* Additional ambient orb */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={isInView ? { 
+          opacity: [0.05, 0.15, 0.05],
+          scale: [0.8, 1.2, 0.8],
+        } : {}}
+        transition={{ duration: 8, repeat: Infinity, delay: 1 }}
+        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-br ${theme.accent} rounded-full blur-3xl pointer-events-none`}
       />
       <div className="max-w-7xl mx-auto">
         <div className={`grid grid-cols-1 lg:grid-cols-2 gap-16 items-start ${
@@ -109,35 +133,80 @@ export default function DayEntry({ day, index }: DayEntryProps) {
             transition={{ duration: 0.8, delay: 0.2 }}
             className={`${isEven ? '' : 'lg:order-2'}`}
           >
-            {/* Day Header */}
+            {/* Day Header with enhanced styling */}
             <div className="mb-8 relative">
+              {/* Animated side accent bar with glow */}
               <motion.div
-                initial={{ scaleX: 0 }}
-                animate={isInView ? { scaleX: 1 } : {}}
-                transition={{ duration: 0.8, delay: 0.1 }}
-                className={`absolute -left-8 top-0 bottom-0 w-1 bg-gradient-to-b ${theme.accent} to-transparent origin-top ${theme.glow} shadow-lg`}
+                initial={{ scaleY: 0, opacity: 0 }}
+                animate={isInView ? { scaleY: 1, opacity: 1 } : {}}
+                transition={{ duration: 1, delay: 0.1, type: 'spring' }}
+                className={`absolute -left-8 top-0 bottom-0 w-1.5 bg-gradient-to-b ${theme.accent} to-transparent origin-top rounded-full ${theme.glow} shadow-2xl`}
               />
-              <motion.span 
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className={`inline-block text-xs uppercase tracking-widest ${theme.text} font-semibold mb-3`}
+              
+              {/* Day number badge */}
+              <motion.div
+                initial={{ opacity: 0, x: -20, scale: 0.8 }}
+                animate={isInView ? { opacity: 1, x: 0, scale: 1 } : {}}
+                transition={{ duration: 0.6, delay: 0.2, type: 'spring' }}
+                className="inline-block mb-4"
               >
-                Day {day.day}
-              </motion.span>
+                <div className={`relative px-5 py-2 rounded-full border-2 border-current ${theme.text} overflow-hidden`}>
+                  <span className="relative z-10 text-xs uppercase tracking-[0.2em] font-bold">
+                    Day {day.day}
+                  </span>
+                  {/* Subtle gradient background */}
+                  <motion.div
+                    animate={{ opacity: [0.1, 0.2, 0.1] }}
+                    transition={{ duration: 3, repeat: Infinity }}
+                    className={`absolute inset-0 bg-gradient-to-r ${theme.accent} opacity-10`}
+                  />
+                </div>
+              </motion.div>
               
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-slate-900 mb-4 leading-tight">
-                {day.title}
-              </h2>
+              {/* Title with text glow */}
+              <motion.h2 
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                className="text-4xl md:text-5xl lg:text-6xl font-serif text-slate-900 mb-6 leading-tight relative"
+              >
+                <span className="relative inline-block">
+                  {day.title}
+                  {/* Subtle text glow */}
+                  <motion.span
+                    initial={{ opacity: 0 }}
+                    animate={isInView ? { opacity: [0.1, 0.2, 0.1] } : {}}
+                    transition={{ duration: 3, repeat: Infinity }}
+                    className={`absolute inset-0 blur-xl bg-gradient-to-r ${theme.accent} -z-10`}
+                  />
+                </span>
+              </motion.h2>
               
-              <div className="flex items-center gap-2 text-slate-600 mb-6">
-                <MapPin className="w-4 h-4" />
-                <span className="text-sm font-sans">{day.landmark}</span>
-              </div>
+              {/* Location with icon */}
+              <motion.div 
+                initial={{ opacity: 0, x: -10 }}
+                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className={`flex items-center gap-2 mb-6 ${theme.text} group`}
+              >
+                <motion.div
+                  whileHover={{ scale: 1.2, rotate: 12 }}
+                  transition={{ type: 'spring', stiffness: 400 }}
+                >
+                  <MapPin className="w-5 h-5" />
+                </motion.div>
+                <span className="text-sm font-sans tracking-wide font-medium">{day.landmark}</span>
+              </motion.div>
               
-              <p className="text-xl md:text-2xl text-slate-700 leading-relaxed font-light">
+              {/* Excerpt with gradient text */}
+              <motion.p 
+                initial={{ opacity: 0, y: 15 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                className="text-xl md:text-2xl text-slate-700 leading-relaxed font-light"
+              >
                 {day.excerpt}
-              </p>
+              </motion.p>
             </div>
           </motion.div>
 
@@ -152,20 +221,47 @@ export default function DayEntry({ day, index }: DayEntryProps) {
           </motion.div>
         </div>
 
-        {/* Full Narrative - Expandable */}
+        {/* Full Narrative - Expandable with enhanced styling */}
         <motion.details
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.8, delay: 1 }}
-          className="mt-16 max-w-4xl mx-auto group"
+          className="mt-20 max-w-4xl mx-auto group relative"
         >
-          <summary className={`cursor-pointer text-center text-sm uppercase tracking-widest ${theme.text} hover:text-slate-900 transition-all py-6 border-t border-b border-slate-200 hover:border-current relative group`}>
-            <span className="relative inline-block">
+          {/* Decorative elements around the button */}
+          <div className="absolute -top-12 left-1/2 -translate-x-1/2 flex items-center gap-3">
+            <motion.div
+              animate={{ scaleX: [0, 1, 1, 0] }}
+              transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+              className={`h-px w-12 bg-gradient-to-r ${theme.accent}`}
+            />
+            <motion.div
+              animate={{ rotate: 360, scale: [1, 1.2, 1] }}
+              transition={{ duration: 4, repeat: Infinity }}
+              className={`w-2 h-2 rounded-full bg-gradient-to-br ${theme.accent}`}
+            />
+            <motion.div
+              animate={{ scaleX: [0, 1, 1, 0] }}
+              transition={{ duration: 2, repeat: Infinity, repeatDelay: 3, delay: 1 }}
+              className={`h-px w-12 bg-gradient-to-l ${theme.accent}`}
+            />
+          </div>
+          
+          <summary className={`cursor-pointer text-center text-sm uppercase tracking-[0.2em] ${theme.text} hover:text-slate-900 transition-all py-8 border-t-2 border-b-2 border-slate-200 hover:border-current relative group`}>
+            <span className="relative inline-block font-semibold">
               Read Full Entry
+              {/* Animated underline */}
               <motion.span
-                className={`absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r ${theme.accent} opacity-0 group-hover:opacity-100`}
+                className={`absolute -bottom-2 left-0 right-0 h-0.5 bg-gradient-to-r ${theme.accent} opacity-0 group-hover:opacity-100`}
                 initial={{ scaleX: 0 }}
                 whileHover={{ scaleX: 1 }}
+                transition={{ duration: 0.4, type: 'spring' }}
+              />
+              {/* Glow effect */}
+              <motion.span
+                className={`absolute inset-0 blur-lg bg-gradient-to-r ${theme.accent} opacity-0 group-hover:opacity-20 -z-10`}
+                initial={{ scale: 0.8 }}
+                whileHover={{ scale: 1.2 }}
                 transition={{ duration: 0.3 }}
               />
             </span>
