@@ -91,23 +91,44 @@ export default function Hero({ meta }: HeroProps) {
           className="h-px bg-gradient-to-r from-transparent via-sage-400 to-transparent w-full max-w-md mx-auto mb-16"
         />
 
-        <motion.div
+        <motion.button
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
             duration: 0.8,
             delay: 1.2,
-            repeat: Infinity,
-            repeatType: 'reverse',
-            repeatDelay: 0.5,
           }}
-          className="flex flex-col items-center gap-2"
+          whileHover={{ scale: 1.1, y: -5 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => {
+            const dayOne = document.getElementById('day-1')
+            if (dayOne) {
+              dayOne.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            }
+          }}
+          className="group flex flex-col items-center gap-2 cursor-pointer relative px-8 py-4 rounded-full hover:bg-sage-100/50 transition-all duration-300"
         >
-          <span className="text-xs uppercase tracking-widest text-slate-500">
+          <span className="text-xs uppercase tracking-widest text-slate-500 group-hover:text-sage-700 transition-colors">
             Begin Journey
           </span>
-          <ChevronDown className="w-5 h-5 text-sage-600" />
-        </motion.div>
+          <motion.div
+            animate={{ y: [0, 5, 0] }}
+            transition={{
+              duration: 1.5,
+              repeat: Infinity,
+              repeatType: 'loop',
+            }}
+          >
+            <ChevronDown className="w-5 h-5 text-sage-600 group-hover:text-amber-600 transition-colors" />
+          </motion.div>
+          
+          {/* Hover glow effect */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileHover={{ opacity: 1 }}
+            className="absolute inset-0 bg-gradient-to-r from-amber-200/20 via-yellow-200/20 to-amber-200/20 rounded-full blur-xl -z-10"
+          />
+        </motion.button>
       </motion.div>
 
       <motion.div
